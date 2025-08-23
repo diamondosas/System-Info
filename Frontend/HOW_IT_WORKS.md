@@ -407,8 +407,13 @@ document.addEventListener('DOMContentLoaded', init);
 
 This is a lightweight web server using the Flask framework.
 
-*   **Flask App**: It initializes a Flask application.
-*   **API Route (`/api/data`)**: This is the most important part. When the frontend's JavaScript requests this URL, the Flask server makes its own HTTP request to the Go backend (`http://localhost:9999/api/specs`). It then forwards the JSON response from the Go backend directly to the frontend. This makes it a **proxy**.
+*   **Flask App**: It initializes a Flask application with CORS enabled for cross-origin requests.
+*   **API Route (`/api/data`)**: This is the most important part. When the frontend's JavaScript requests this URL, the Flask server makes its own HTTP request to the Go backend. By default, it connects to `http://localhost:9999/api/specs`, but this can be configured using the `GO_BACKEND_URL` environment variable.
 *   **Frontend Route (`/`)**: This route serves the `index.html` file, allowing you to view the dashboard in your browser.
 *   **Static Files**: The server is configured to automatically serve other files like `styles.css` and `script.js` from the same directory.
-*   **Execution**: When you run `python server.py`, it starts the server on `http://localhost:5000`.
+*   **Execution**: When you run `python server.py`, it starts the server on `http://0.0.0.0:5000` (accessible from all network interfaces).
+*   **Configuration**: To specify a different Go backend URL, set the `GO_BACKEND_URL` environment variable:
+    ```
+    GO_BACKEND_URL=http://192.168.1.100:9999/api/specs python server.py
+    ```
+    Replace `192.168.1.100` with the actual IP address of the machine running the Go backend.

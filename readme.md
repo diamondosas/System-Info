@@ -15,9 +15,11 @@
   ==============================
   📌FrontEnd Requirements
   ==============================
-  Use pure html css adnd vanilla js python flask as the server to recicve data as json form the go application that then displays it live to the user on the web
+  Use pure html css and vanilla js with Python Flask as the server to receive data as JSON from the Go application that then displays it live to the user on the web.
 
-  The website theme shold be in theme
+  The website theme should be as shown in theme.png.
+  
+  The frontend server can be accessed from other machines on the network. See Frontend/README.md for detailed instructions on network configuration.
 
 
 
