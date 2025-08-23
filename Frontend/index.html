@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Information Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google Fonts - Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <img src="logo.png" alt="Logo" class="logo">
+            <h1>System Information Dashboard</h1>
+            <!-- Download Button -->
+            <button id="download-btn" class="download-btn">
+                <i class="fas fa-download"></i> Download Collector
+            </button>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Connection Status -->
+        <div id="connection-status" class="connection-status">
+            <i class="fas fa-circle status-icon"></i>
+            <span id="status-text">Connecting to backend...</span>
+        </div>
+
+        <!-- OS Information -->
+        <section id="os-info" class="card">
+            <h2 class="card-title"><i class="fas fa-desktop"></i> Operating System</h2>
+            <div class="card-content">
+                <p><strong>Name:</strong> <span id="os-name"></span></p>
+                <p><strong>Version:</strong> <span id="os-version"></span></p>
+                <p><strong>Architecture:</strong> <span id="os-arch"></span></p>
+                <p><strong>Uptime:</strong> <span id="os-uptime"></span></p>
+            </div>
+        </section>
+
+        <div class="row">
+            <!-- CPU Information -->
+            <section id="cpu-info" class="card">
+                <h2 class="card-title"><i class="fas fa-microchip"></i> CPU</h2>
+                <div class="card-content">
+                    <p><strong>Model:</strong> <span id="cpu-model"></span></p>
+                    <p><strong>Cores:</strong> <span id="cpu-cores"></span></p>
+                    <p><strong>Threads:</strong> <span id="cpu-threads"></span></p>
+                    <p><strong>Frequency:</strong> <span id="cpu-frequency"></span></p>
+                    <div class="progress-container">
+                        <strong>Usage:</strong>
+                        <div class="progress-bar">
+                            <div id="cpu-usage" class="progress"></div>
+                        </div>
+                        <span id="cpu-usage-text"></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Memory (RAM) Information -->
+            <section id="memory-info" class="card">
+                <h2 class="card-title"><i class="fas fa-memory"></i> Memory (RAM)</h2>
+                <div class="card-content">
+                    <p><strong>Total:</strong> <span id="mem-total"></span></p>
+                    <p><strong>Available:</strong> <span id="mem-available"></span></p>
+                    <p><strong>Used:</strong> <span id="mem-used"></span></p>
+                    <div class="progress-container">
+                        <strong>Usage:</strong>
+                        <div class="progress-bar">
+                            <div id="mem-usage" class="progress"></div>
+                        </div>
+                        <span id="mem-usage-text"></span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- GPU Information -->
+        <section id="gpu-info" class="card">
+            <h2 class="card-title"><i class="fas fa-gamepad"></i> GPU</h2>
+            <div class="card-content">
+                <p><strong>Vendor:</strong> <span id="gpu-vendor"></span></p>
+                <p><strong>Model:</strong> <span id="gpu-model"></span></p>
+                <p><strong>VRAM:</strong> <span id="gpu-vram"></span></p>
+            </div>
+        </section>
+
+        <!-- Storage Information -->
+        <section id="storage-info" class="card">
+            <h2 class="card-title"><i class="fas fa-hdd"></i> Storage</h2>
+            <div id="storage-devices" class="card-content">
+                <!-- Storage devices will be populated by JS -->
+            </div>
+        </section>
+
+        <!-- Network Information -->
+        <section id="network-info" class="card">
+            <h2 class="card-title"><i class="fas fa-wifi"></i> Network</h2>
+            <div id="network-interfaces" class="card-content">
+                <!-- Network interfaces will be populated by JS -->
+            </div>
+        </section>
+
+        <div class="row">
+            <!-- Battery Information -->
+            <section id="battery-info" class="card">
+                <h2 class="card-title"><i class="fas fa-battery-full"></i> Battery</h2>
+                <div class="card-content">
+                    <p><strong>Status:</strong> <span id="battery-status"></span></p>
+                    <p><strong>Percentage:</strong> <span id="battery-percentage"></span></p>
+                </div>
+            </section>
+
+            <!-- Sensors Information -->
+            <section id="sensors-info" class="card">
+                <h2 class="card-title"><i class="fas fa-thermometer-half"></i> Sensors</h2>
+                <div class="card-content">
+                    <p><strong>CPU Temperature:</strong> <span id="cpu-temp"></span></p>
+                    <p><strong>GPU Temperature:</strong> <span id="gpu-temp"></span></p>
+                </div>
+            </section>
+        </div>
+
+        <!-- Processes Information -->
+        <section id="processes-info" class="card">
+            <h2 class="card-title"><i class="fas fa-cogs"></i> Running Processes</h2>
+            <div class="table-container">
+                <table id="processes-table">
+                    <thead>
+                        <tr>
+                            <th>PID</th>
+                            <th>Name</th>
+                            <th>Memory Usage</th>
+                        </tr>
+                    </thead>
+                    <tbody id="processes-body">
+                        <!-- Process list will be populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>System Info Dashboard - &copy; 2025</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

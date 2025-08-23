@@ -1,0 +1,10 @@
+Ignore the backend and only work on the frront end folder
+Clarify if anything is unclear.
+
+Updates
+1. For the network section make it that it only fileters Ethernet and Wi-Fi interface to show
+2. The cpu usage percentage should be rounded to whole number so as to avoid decimal points
+3. if the wesite is not yet connected to backend it should be trying in the background every second to connect to it
+
+I am a learner so please upadte @how it works so that i can learn and please expalin every function in the javascript and any technical code in detal
+

@@ -1,0 +1,153 @@
+/* Base styles */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: #161b22; /* Solid dark blue background */
+    color: white;
+    font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+    overflow: hidden;
+    border-radius: 15px; /* Rounded corners */
+    user-select: none;  
+}
+
+.container {
+    display: flex;
+           flex-direction: column;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    text-align: center;
+    margin: 0;
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+#logo {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+/* Content area */
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Status indicator */
+.status-container {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.status-indicator {
+    display: inline-flex;
+    align-items: center;
+    padding: 15px 25px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    font-size: 1.1rem;
+}
+
+.status-indicator .spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top: 3px solid #fff;
+    border-radius: 50%;
+    margin-right: 15px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Progress bar */
+.progress-container {
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4a86e8;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    font-size: 1rem;
+    color: #a0c4ff;
+}
+
+/* Completion message */
+.completion-message {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #a0c4ff;
+    font-weight: bold;
+}
+
+/* Footer with close button */
+.footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.close-btn {
+    background-color: #4a86e8;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    box-shadow: 0 0 10px #4a86e8;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .header h1 {
+        font-size: 1.2rem;
+    }
+    
+    .status-indicator {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+}

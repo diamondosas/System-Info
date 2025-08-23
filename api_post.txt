@@ -1,0 +1,90 @@
+ {
+    2   "os": {
+    3     "name": "Windows 11 Pro",
+    4     "version": "22H2",
+    5     "architecture": "x64",
+    6     "uptime": "5 days, 3 hours, 15 minutes"
+    7   },
+    8   "cpu": {
+    9     "model": "Intel Core i9-13900K",
+   10     "cores": 24,
+   11     "threads": 32,
+   12     "frequency": 3200,
+   13     "usage_percent": 28.5
+   14   },
+   15   "memory": {
+   16     "total": 32768,
+   17     "available": 18432,
+   18     "used": 14336
+   19   },
+   20   "gpu": {
+   21     "vendor": "NVIDIA",
+   22     "model": "GeForce RTX 4090",
+   23     "vram": 24576
+   24   },
+   25   "storage": [
+   26     {
+   27       "device": "C:",
+   28       "model": "Samsung 980 PRO",
+   29       "type": "SSD",
+   30       "capacity": 1024000,
+   31       "free": 512000
+   32     },
+   33     {
+   34       "device": "D:",
+   35       "model": "Seagate Barracuda",
+   36       "type": "HDD",
+   37       "capacity": 2048000,
+   38       "free": 1024000
+   39     }ING\System Info                                    no sandbox (see /docs)                                       qwen3-coder-plus (96% context left)
+   40   ],
+   41   "network": [
+   42     {
+   43       "interface": "Ethernet",
+   44       "ip_address": "192.168.1.100",
+   45       "mac_address": "00:1B:44:11:3A:B7",
+   46       "bandwidth_down": 125000000
+   47     },
+   48     {
+   49       "interface": "Wi-Fi",
+   50       "ip_address": "192.168.1.101",
+   51       "mac_address": "A8:D3:F7:8B:4C:01",
+   52       "bandwidth_down": 86700000
+   53     }
+   54   ],
+   55   "battery": {
+   56     "percentage": 85,
+   57     "status": "Charging"
+   58   },
+   59   "sensors": {
+   60     "cpu_temp": 55.2,
+   61     "gpu_temp": 62.8
+   62   },
+   63   "processes": [
+   64     {
+   65       "pid": 101,
+   66       "name": "chrome.exe",
+   67       "memory_mb": 1200.5
+   68     },
+   69     {
+   70       "pid": 203,
+   71       "name": "code.exe",
+   72       "memory_mb": 850.2
+   73     },
+   74     {
+   75       "pid": 405,
+   76       "name": "spotify.exe",
+   77       "memory_mb": 320.7
+   78     },
+   79     {
+   80       "pid": 408,
+   81       "name": "system-info-backend.exe",
+   82       "memory_mb": 150.3
+   83     },
+   84     {
+   85       "pid": 512,
+   86       "name": "python.exe",
+   87       "memory_mb": 80.1
+   88     }
+   89   ]
+   90 }
