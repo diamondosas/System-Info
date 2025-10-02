@@ -226,30 +226,45 @@ func extractDeviceIDFromAssoc(s string) string {
 	return ""
 }
 
+// Helper to get vendor from PNPDeviceID (e.g., VEN_10DE -> NVIDIA)
+func getVendorFromPNP(pnpID string) string {
+	pnpLower := strings.ToLower(pnpID)
+	if strings.Contains(pnpLower, "ven_10de") {
+		return "NVIDIA"
+	} else if strings.Contains(pnpLower, "ven_1002") {
+		return "AMD"
+	} else if strings.Contains(pnpLower, "ven_8086") {
+		return "Intel"
+	}
+	return ""
+}
+
+// Helper to infer vendor from name (fallback)
+func getVendorFromName(name string) string {
+	nameLower := strings.ToLower(name)
+	if strings.Contains(nameLower, "nvidia") {
+		return "NVIDIA"
+	} else if strings.Contains(nameLower, "amd") || strings.Contains(nameLower, "radeon") {
+		return "AMD"
+	} else if strings.Contains(nameLower, "intel") {
+		return "Intel"
+	}
+	return "Unknown"
+}
+
 // --- Collectors ---
 func (a *App) collectOS() (OSInfo, error) {
-	var osInfos []Win32_OperatingSystem
-	err := wmi.Query("SELECT Name, Version, OSArchitecture, LastBootUpTime FROM Win32_OperatingSystem", &osInfos)
+	hi, err := host.Info()
 	if err != nil {
 		return OSInfo{}, err
 	}
-	var out OSInfo
-	if len(osInfos) > 0 {
-		wo := osInfos[0]
-		// Name often has additional text; example: "Microsoft Windows 10 Pro|C:\WINDOWS|\Device\Harddisk0\Partition4"
-		// We'll strip down to first part up to the '|' or full string.
-		name := wo.Name
-		if idx := strings.Index(name, "|"); idx != -1 {
-			name = name[:idx]
-		}
-		out.Name = strings.TrimSpace(name)
-		out.Version = wo.Version
-		out.Architecture = wo.OSArchitecture
-		// compute uptime using host package as well (easier)
-		u, _ := host.Uptime()
-		out.Uptime = formatUptime(u)
-	}
-	return out, nil
+	u, _ := host.Uptime()
+	return OSInfo{
+		Name:         hi.OS + " " + hi.PlatformVersion,
+		Version:      hi.KernelVersion,
+		Architecture: hi.KernelArch,
+		Uptime:       formatUptime(u),
+	}, nil
 }
 
 func formatUptime(seconds uint64) string {
@@ -313,24 +328,57 @@ func (a *App) collectGPU() (GPUInfo, error) {
 	if len(vcds) == 0 {
 		return GPUInfo{Vendor: "Unknown", Model: "Unknown", VRAMMB: 0}, nil
 	}
-	// pick first GPU (primary)
-	g := vcds[0]
-	vendor := "Unknown"
-	// try infer vendor from name
-	if strings.Contains(strings.ToLower(g.Name), "nvidia") {
-		vendor = "NVIDIA"
-	} else if strings.Contains(strings.ToLower(g.Name), "amd") || strings.Contains(strings.ToLower(g.Name), "radeon") {
-		vendor = "AMD"
-	} else if strings.Contains(strings.ToLower(g.Name), "intel") {
-		vendor = "Intel"
+
+	// Filter out virtual/basic display adapters
+	var realGPUs []Win32_VideoController
+	for _, vc := range vcds {
+		nameLower := strings.ToLower(vc.Name)
+		if strings.Contains(nameLower, "basic display") ||
+		   strings.Contains(nameLower, "virtual display") ||
+		   (strings.Contains(nameLower, "microsoft") && !strings.Contains(nameLower, "nvidia") && !strings.Contains(nameLower, "amd") && !strings.Contains(nameLower, "intel")) {
+			continue
+		}
+		realGPUs = append(realGPUs, vc)
 	}
-	vram := int64(0)
-	if g.AdapterRAM != nil {
-		vram = int64(*g.AdapterRAM) / (1024 * 1024)
+
+	if len(realGPUs) == 0 {
+		// Fallback to original logic if no real GPUs found
+		g := vcds[0]
+		vendor := getVendorFromName(g.Name)
+		vram := int64(0)
+		if g.AdapterRAM != nil {
+			vram = int64(*g.AdapterRAM) / (1024 * 1024)
+		}
+		return GPUInfo{
+			Vendor: vendor,
+			Model:  g.Name,
+			VRAMMB: vram,
+		}, nil
 	}
+
+	// Select GPU with largest VRAM
+	var selected Win32_VideoController
+	maxVRAM := int64(-1)
+	for _, g := range realGPUs {
+		vram := int64(0)
+		if g.AdapterRAM != nil {
+			vram = int64(*g.AdapterRAM) / (1024 * 1024)
+		}
+		if vram > maxVRAM {
+			maxVRAM = vram
+			selected = g
+		}
+	}
+
+	vendor := getVendorFromPNP(selected.PNPDeviceID)
+	if vendor == "" {
+		vendor = getVendorFromName(selected.Name)
+	}
+	vram := maxVRAM
+
 	return GPUInfo{
 		Vendor: vendor,
-		Model:  g.Name,
+		Model:  selected.Name,
 		VRAMMB: vram,
 	}, nil
 }
@@ -466,7 +514,10 @@ func (a *App) collectNetwork() ([]NetworkEntry, error) {
 
 func (a *App) collectBattery() (BatteryInfo, error) {
 	var bats []Win32_Battery
-	_ = wmi.Query("SELECT EstimatedChargeRemaining, Status FROM Win32_Battery", &bats)
+	err := wmi.Query("SELECT EstimatedChargeRemaining, Status FROM Win32_Battery", &bats)
+	if err != nil {
+		return BatteryInfo{Percentage: -1, Status: "Error"}, err
+	}
 	if len(bats) == 0 {
 		return BatteryInfo{Percentage: -1, Status: "NoBattery"}, nil
 	}
@@ -479,7 +530,7 @@ func (a *App) collectBattery() (BatteryInfo, error) {
 	if b.Status != nil {
 		switch *b.Status {
 		case 1:
-			status = "The device is not supported"
+			status = "Not supported"
 		case 2:
 			status = "Discharging"
 		case 3:
@@ -490,6 +541,16 @@ func (a *App) collectBattery() (BatteryInfo, error) {
 			status = "Critical"
 		case 6:
 			status = "Charging"
+		case 7:
+			status = "Charging, high"
+		case 8:
+			status = "Charging, low"
+		case 9:
+			status = "Charging, critical"
+		case 10:
+			status = "Undefined"
+		case 11:
+			status = "Partially Charged"
 		default:
 			status = fmt.Sprintf("StatusCode:%d", *b.Status)
 		}
@@ -501,23 +562,32 @@ func (a *App) collectBattery() (BatteryInfo, error) {
 }
 
 func (a *App) collectSensors() (SensorsInfo, error) {
-	// Windows often doesn't expose sensors via standard gopsutil on all machines.
-	// For sample code we'll return zeros or try MSAcpi_ThermalZoneTemperature WMI class.
-	type MSAcpi_Thermal struct {
-		CurrentTemperature *int32 // in tenths of Kelvin
-		InstanceName       *string
+	temps, err := host.SensorsTemperatures()
+	if err != nil {
+		return SensorsInfo{}, err
 	}
-	var temps []MSAcpi_Thermal
-	_ = wmi.Query("SELECT CurrentTemperature, InstanceName FROM MSAcpi_ThermalZoneTemperature", &temps)
+	cpuSum, gpuSum := 0.0, 0.0
+	cpuCount, gpuCount := 0, 0
+	for _, t := range temps {
+		key := strings.ToLower(t.SensorKey)
+		tempC := float64(t.Temperature) / 1000.0 // millidegrees to C
+		if strings.Contains(key, "cpu") || strings.Contains(key, "thermal") {
+			cpuSum += tempC
+			cpuCount++
+		} else if strings.Contains(key, "gpu") {
+			gpuSum += tempC
+			gpuCount++
+		}
+	}
 	cpuTemp := 0.0
-	if len(temps) > 0 && temps[0].CurrentTemperature != nil {
-		// CurrentTemperature is in tenths of Kelvin according to some docs: (K * 10)
-		k := float64(*temps[0].CurrentTemperature) / 10.0
-		c := k - 273.15
-		cpuTemp = c
+	if cpuCount > 0 {
+		cpuTemp = cpuSum / float64(cpuCount)
 	}
-	// GPU temp via WMI is not reliable; set to 0 if not found
-	return SensorsInfo{CPUTemp: cpuTemp, GPUTemp: 0.0}, nil
+	gpuTemp := 0.0
+	if gpuCount > 0 {
+		gpuTemp = gpuSum / float64(gpuCount)
+	}
+	return SensorsInfo{CPUTemp: cpuTemp, GPUTemp: gpuTemp}, nil
 }
 
 func (a *App) collectProcesses() ([]ProcessEntry, error) {

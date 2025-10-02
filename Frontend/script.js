@@ -2,7 +2,7 @@
 const CONFIG = {
     API_ENDPOINT: '/api/data',
     REFRESH_INTERVAL: 2000, // 2 seconds
-    EXECUTABLE_PATH: './system-info-collector.exe' // Path to the backend executable
+    EXECUTABLE_PATH: './info-collector.exe' // Path to the backend executable
 };
 
 // DOM Elements
