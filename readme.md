@@ -1,6 +1,6 @@
 <!-- Inline SVG logo placeholder — replace with your own if you have one -->
 <div align="center">
-  ![My App Logo]([images/logo.png](https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.iconarchive.com%2Fshow%2Forb-os-x-icons-by-osullivanluke%2FSystem-Info-icon.html&psig=AOvVaw1N-J1I8da2B47g5wiZhe0h&ust=1760547855043000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCJj92IKWpJADFQAAAAAdAAAAABAE))
+  ![My App Logo]([https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.iconarchive.com%2Fshow%2Forb-os-x-icons-by-osullivanluke%2FSystem-Info-icon.html&psig=AOvVaw1N-J1I8da2B47g5wiZhe0h&ust=1760547855043000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCJj92IKWpJADFQAAAAAdAAAAABAE)
 </div>
 
 
