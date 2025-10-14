@@ -1,8 +1,6 @@
 <!-- Inline SVG logo placeholder — replace with your own if you have one -->
-<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="50" cy="50" r="48" stroke="#333" stroke-width="4" fill="none" />
-  <text x="50%" y="54%" text-anchor="middle" fill="#333" font-size="36" font-family="Arial" dy=".3em">SI</text>
-</svg>
+![SI Logo](https://static.cdnlogo.com/logos/s/98/si.svg)
+
 
 # System-Info
 
@@ -49,21 +47,23 @@ Adjust host/port or API path if needed in frontend JS.
 ## 📊 Example Output / Metrics
 
 You should show screenshots or sample JSON with things like:
-
 ```json
 {
-  "cpu": { … },
-  "memory": { … },
-  "storage": [ … ],
-  "gpu": { … },
-  "network": [ … ],
-  "os": { … },
-  "battery": { … },
-  "processes": [ … ]
+"cpu": { … },
+"memory": { … },
+"storage": [ … ],
+"gpu": { … },
+"network": [ … ],
+"os": { … },
+"battery": { … },
+"processes": [ … ]
 }
-And in the dashboard: charts, tables, dynamic updates, etc.
+```
+
+And the rest of your text:
 
 🔮 What’s Next / Ideas
+
 Better styling / theming (dark mode, transitions)
 
 Auto-refresh or websocket streaming
