@@ -1,56 +1,85 @@
-  You are to build a full-stack application that collects ALL possible system information from a computer and displays it in a clean web dashboard.
+<!-- Inline SVG logo placeholder — replace with your own if you have one -->
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="50" r="48" stroke="#333" stroke-width="4" fill="none" />
+  <text x="50%" y="54%" text-anchor="middle" fill="#333" font-size="36" font-family="Arial" dy=".3em">SI</text>
+</svg>
 
-  ==============================
-  📌 General Requirements
-  ==============================
-  - The application consists of:
-    1. **Backend in Go** → Runs as an .exe (Windows optimized), collects full system specs, and exposes them via an HTTP API (JSON). For gui use wails(Vanilla Js )
-    2. **Frontend ** → A dashboard that fetches data from the Go backend and displays all details nicely.
-  - Leave comments in the code where I can adjust styles, Dont use external apis only the vue and font awsome font files , and add/remove features.
-  - Use **JSON** as the communication format between backend and frontend.
-  - Keep code simple
+# System-Info
 
-  USe theme.png for both fornt end and backend
+A simple system specification dashboard: backend in Go gathers hardware/OS details, and a frontend visualizes them. :contentReference[oaicite:0]{index=0}
 
-  ==============================
-  📌FrontEnd Requirements
-  ==============================
-  Use pure html css and vanilla js with Python Flask as the server to receive data as JSON from the Go application that then displays it live to the user on the web.
+---
 
-  The website theme should be as shown in theme.png.
-  
-  The frontend server can be accessed from other machines on the network. See Frontend/README.md for detailed instructions on network configuration.
+## 🔧 What It Does
 
+- Collects system metrics: CPU, memory, storage, GPU, network, OS, battery, processes, sensors. :contentReference[oaicite:1]{index=1}  
+- Exposes data through a JSON HTTP API (e.g. `GET /api/specs`) :contentReference[oaicite:2]{index=2}  
+- Displays the specs in a clean web dashboard (vanilla JS + HTML/CSS) :contentReference[oaicite:3]{index=3}  
 
+---
 
-  ==============================
-  📌 Backend (Go)
-  ==============================
-  When the app is opened it should show it actively collecting all info of the appp and then telling the user to close it and return back t the website the user presses close and the app still runs in the background to collect realtime info like ram cpu info and alll other things 
-  - Use `gopsutil` and Windows-specific APIs (WMI) to collect all available information:
-    - **CPU**: model, cores, threads, frequency, usage %, cache sizes
-    - **Memory (RAM)**: total, available, used, swap memory
-    - **Storage**: each disk/partition, model, type (HDD/SSD), capacity, free space
-    - **GPU**: vendor, model, VRAM (via WMI on Windows, fallback to OpenCL/DirectX/GL if needed)
-    - **Network**: all interfaces, IP addresses, MAC, current bandwidth usage
-    - **OS**: name, version, build, architecture, uptime
-    - **Battery**: status, percentage, charging/discharging
-    - **Sensors (if available)**: CPU/GPU temperature, fan speed
-    - **Processes**: running processes with name, PID, memory usage
-  - Expose this data through an HTTP API at `http://localhost:9999/api/specs`.
-  - Add a **health check endpoint** at `/api/health`.
-  Also add other data that the app can collect 
-  - JSON output should be structured clearly:
-    ```json
-    {
-      "cpu": {...},
-      "memory": {...},
-      "storage": [...],
-      "gpu": {...},
-      "network": [...],
-      "os": {...},
-      "battery": {...},
-      "sensors": {...},
-      "processes": [...]
-    }
-  For the gui use pure vanilla(JS) with normal css
+## 📂 Project Structure
+
+/
+├── Backend/ ← Go code collecting system data
+├── Frontend/ ← HTML, CSS, JS dashboard
+├── logo.png
+├── theme.png
+├── api_post.txt
+├── prompt.txt
+├── README.md ← this file
+└── .gitignore
+
+yaml
+Copy code
+
+---
+
+## 🚀 Quick Start
+
+1. Build / run the Go backend (on your OS)  
+2. Start frontend (serve HTML/JS)  
+3. Navigate to dashboard in browser  
+4. Dashboard fetches data from backend and displays live metrics  
+
+Adjust host/port or API path if needed in frontend JS.
+
+---
+
+## 📊 Example Output / Metrics
+
+You should show screenshots or sample JSON with things like:
+
+```json
+{
+  "cpu": { … },
+  "memory": { … },
+  "storage": [ … ],
+  "gpu": { … },
+  "network": [ … ],
+  "os": { … },
+  "battery": { … },
+  "processes": [ … ]
+}
+And in the dashboard: charts, tables, dynamic updates, etc.
+
+🔮 What’s Next / Ideas
+Better styling / theming (dark mode, transitions)
+
+Auto-refresh or websocket streaming
+
+More sensors (temperatures, fan speeds)
+
+Add filtering or search in processes
+
+Containerize (Docker)
+
+Add user authentication or remote access
+
+🤝 Contribute
+Fork, tweak, send PRs. If you add features, update this README.
+
+📜 License & Contact
+MIT License (or your choice)
+Author: Diamond
+GitHub: DiamondOsas
