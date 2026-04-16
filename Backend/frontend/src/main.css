@@ -1,48 +1,46 @@
-/* Base styles */
 html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-    background-color: #161b22; /* Solid dark blue background */
-    color: white;
-    font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+    background-color: #0d1117;
+    color: #e6edf3;
+    font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
     overflow: hidden;
-    border-radius: 15px; /* Rounded corners */
-    user-select: none;  
+    border-radius: 12px;
+    user-select: none;
 }
 
 .container {
     display: flex;
-           flex-direction: column;
+    flex-direction: column;
     height: 100%;
     padding: 20px;
     box-sizing: border-box;
+    border: 1px solid #21262d;
+    border-radius: 12px;
 }
 
-/* Header */
 .header {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #21262d;
 }
 
 .header h1 {
-    text-align: center;
     margin: 0;
-    font-size: 1.5rem;
-    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 500;
 }
 
-#logo {
-    width: 50px;
-    height: 50px;
+.logo {
+    width: 32px;
+    height: 32px;
     margin-right: 10px;
 }
 
-/* Content area */
 .content {
     flex: 1;
     display: flex;
@@ -51,28 +49,60 @@ html, body {
     align-items: center;
 }
 
-/* Status indicator */
-.status-container {
-    text-align: center;
-    margin-bottom: 30px;
+.grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 10px;
+    width: 100%;
+}
+
+.card {
+    background: #161b22;
+    border: 1px solid #21262d;
+    border-radius: 8px;
+    padding: 12px 15px;
+}
+
+.card h3 {
+    margin: 0 0 5px 0;
+    font-size: 0.85rem;
+    color: #8b949e;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.card .value {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #e6edf3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card .sub {
+    font-size: 0.8rem;
+    color: #388bfd;
+    margin-top: 3px;
 }
 
 .status-indicator {
     display: inline-flex;
     align-items: center;
-    padding: 15px 25px;
-    background-color: rgba(255, 255, 255, 0.1);
+    padding: 10px 20px;
+    background-color: #161b22;
+    border: 1px solid #21262d;
     border-radius: 8px;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
 }
 
-.status-indicator .spinner {
-    width: 20px;
-    height: 20px;
-    border: 3px solid rgba(255, 255, 255, 0.3);
-    border-top: 3px solid #fff;
+.spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(230, 237, 243, 0.2);
+    border-top: 2px solid #388bfd;
     border-radius: 50%;
-    margin-right: 15px;
+    margin-right: 12px;
     animation: spin 1s linear infinite;
 }
 
@@ -81,73 +111,24 @@ html, body {
     100% { transform: rotate(360deg); }
 }
 
-/* Progress bar */
-.progress-container {
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
-}
-
-.progress-bar {
-    width: 100%;
-    height: 20px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    overflow: hidden;
-    margin-bottom: 10px;
-}
-
-.progress-fill {
-    height: 100%;
-    background-color: #4a86e8;
-    width: 0%;
-    transition: width 0.3s ease;
-}
-
-.progress-text {
-    font-size: 1rem;
-    color: #a0c4ff;
-}
-
-/* Completion message */
-.completion-message {
-    margin-top: 20px;
-    font-size: 0.9rem;
-    color: #a0c4ff;
-    font-weight: bold;
-}
-
-/* Footer with close button */
 .footer {
     display: flex;
     justify-content: center;
-    margin-top: 30px;
+    margin-top: 15px;
 }
 
 .close-btn {
-    background-color: #4a86e8;
-    color: white;
-    border: none;
-    padding: 12px 30px;
-    border-radius: 25px;
+    background-color: #21262d;
+    color: #e6edf3;
+    border: 1px solid #30363d;
+    padding: 8px 25px;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 1rem;
-    font-weight: 500;
-    box-shadow: 0 0 10px #4a86e8;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-    .container {
-        padding: 15px;
-    }
-    
-    .header h1 {
-        font-size: 1.2rem;
-    }
-    
-    .status-indicator {
-        padding: 10px 20px;
-        font-size: 1rem;
-    }
+.close-btn:hover {
+    background-color: #30363d;
+    border-color: #8b949e;
 }

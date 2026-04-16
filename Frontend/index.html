@@ -18,10 +18,6 @@
         <div class="header-container">
             <img src="logo.png" alt="Logo" class="logo">
             <h1>System Information Dashboard</h1>
-            <!-- Download Button -->    
-            <button id="download-btn" class="download-btn">
-                <i class="fas fa-download"></i> Download Client
-            </button>
         </div>
     </header>
 
@@ -40,6 +36,7 @@
                 <p><strong>Version:</strong> <span id="os-version"></span></p>
                 <p><strong>Architecture:</strong> <span id="os-arch"></span></p>
                 <p><strong>Uptime:</strong> <span id="os-uptime"></span></p>
+                <p><strong>Boot Time:</strong> <span id="os-boottime"></span></p>
             </div>
         </section>
 
@@ -70,11 +67,23 @@
                     <p><strong>Available:</strong> <span id="mem-available"></span></p>
                     <p><strong>Used:</strong> <span id="mem-used"></span></p>
                     <div class="progress-container">
-                        <strong>Usage:</strong>
+                        <strong>RAM Usage:</strong>
                         <div class="progress-bar">
                             <div id="mem-usage" class="progress"></div>
                         </div>
                         <span id="mem-usage-text"></span>
+                    </div>
+
+                    <hr style="border: 1px solid #21262d; margin: 15px 0;">
+
+                    <p><strong>Swap Total:</strong> <span id="swap-total"></span></p>
+                    <p><strong>Swap Used:</strong> <span id="swap-used"></span></p>
+                    <div class="progress-container">
+                        <strong>Swap Usage:</strong>
+                        <div class="progress-bar">
+                            <div id="swap-usage" class="progress"></div>
+                        </div>
+                        <span id="swap-usage-text"></span>
                     </div>
                 </div>
             </section>
@@ -150,6 +159,6 @@
         <p>System Info Dashboard - &copy; 2025</p>
     </footer>
 
-    <script src="script.js"></script>
+    <script type="module" src="js/main.js"></script>
 </body>
 </html>
