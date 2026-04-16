@@ -359,3 +359,9 @@ footer {
         justify-content: center;
     }
 }
+/* Additional CSS for Swap Memory and Boot Time Elements */
+hr {
+    border: none;
+    border-top: 1px solid #21262d;
+    margin: 15px 0;
+}
